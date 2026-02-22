@@ -12,7 +12,7 @@ app = FastAPI()
 app.add_middleware(
     SessionMiddleware,
     secret_key="super-secret-key",
-    max_age=300 # session expires after 2 minutes
+    max_age=300 # session expires after 5 minutes
 )
 
 # ---------------- DATABASE CONFIG (MySQL) ----------------
