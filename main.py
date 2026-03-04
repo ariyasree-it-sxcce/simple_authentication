@@ -5,17 +5,17 @@ from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy import create_engine, Column, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# ---------------- FASTAPI APP ----------------
+# --------------------------- FASTAPI APP ----------------------------------
 
 app = FastAPI()
 
 app.add_middleware(
-    SessionMiddleware,
-    secret_key="super-secret-key",
-    max_age=300 # session expires after 2 minutes
+    SessionMiddleware,#it is a built-in class in starlette that have arguments like secret_key and max_age
+    secret_key="super-secret-key", #mandatory
+    max_age=300 # session expires after 2 minutes #optionsal, default is None (session will last until the browser is closed)
 )
 
-# ---------------- DATABASE CONFIG (MySQL) ----------------
+# -------------------------- DATABASE (MySQL) --------------------------------
 
 DATABASE_URL = "mysql+pymysql://root:ariya123@localhost:3306/simple_auth_db"
 
@@ -31,7 +31,7 @@ class User(Base):
 
 Base.metadata.create_all(engine)
 
-# ---------------- REGISTER ----------------
+# ---------------------------- REGISTER --------------------------------------
 
 @app.post("/register")
 async def register(request: Request):
@@ -56,7 +56,7 @@ async def register(request: Request):
 
     return {"message": "User registered successfully"}
 
-# ---------------- LOGIN ----------------
+# ------------------------------ LOGIN -----------------------------------------
 
 @app.post("/login")
 async def login(request: Request):
