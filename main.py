@@ -10,9 +10,9 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 app = FastAPI()
 
 app.add_middleware(
-    SessionMiddleware,#it is a built-in class in starlette that have arguments like secret_key and max_age
-    secret_key="super-secret-key", #mandatory
-    max_age=300 # session expires after 2 minutes #optionsal, default is None (session will last until the browser is closed)
+    SessionMiddleware,
+    secret_key="super-secret-key",
+    max_age=300 # session expires after 5 minutes
 )
 
 # -------------------------- DATABASE (MySQL) --------------------------------
