@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from starlette.middleware.sessions import SessionMiddleware
-
+from starlette.middleware.sessions import SessionMiddleware 
+from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -14,7 +14,9 @@ app.add_middleware(
     secret_key="super-secret-key",
     max_age=300 # session expires after 5 minutes
 )
-
+class userData(BaseModel):
+    username: str
+    password: str
 # -------------------------- DATABASE (MySQL) --------------------------------
 
 DATABASE_URL = "mysql+pymysql://root:ariya123@localhost:3306/simple_auth_db"
@@ -34,10 +36,9 @@ Base.metadata.create_all(engine)
 # ---------------------------- REGISTER --------------------------------------
 
 @app.post("/register")
-async def register(request: Request):
-    data = await request.json()
-    username = data.get("username")
-    password = data.get("password")
+async def register(data: userData,request: Request):
+    username = data.username
+    password = data.password
 
     db = SessionLocal()
 
@@ -59,10 +60,10 @@ async def register(request: Request):
 # ------------------------------ LOGIN -----------------------------------------
 
 @app.post("/login")
-async def login(request: Request):
-    data = await request.json()
-    username = data.get("username")
-    password = data.get("password")
+async def login(data: userData, request: Request):
+
+    username = data.username
+    password = data.password
 
     db = SessionLocal()
 
